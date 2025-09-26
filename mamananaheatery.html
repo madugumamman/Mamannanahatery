@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maman Nanah Eatery & Catering Service</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Paystack Checkout Script (Required for Payment Gateway) -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <!-- Configure Tailwind for custom colors and Inter font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#7f1d1d', // Deep Red/Maroon - reflects warmth and richness
+                        'secondary': '#fef3c7', // Cream/Gold accent
+                        'background': '#fffefc', // Near-white cream
+                        'dark-text': '#1f2937',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for professional feel and contrast */
+        .shadow-custom {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://placehold.co/1200x800/222222/FFFFFF?text=Delicious+Hausa+Food');
+            background-size: cover;
+            background-position: center;
+        }
+        .scroll-y {
+            overflow-y: auto;
+        }
+    </style>
+    <!-- Lucide icons for visual elements -->
+    <script type="module" src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-sans antialiased text-dark-text bg-background">
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-white bg-opacity-95 shadow-lg backdrop-blur-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-primary tracking-tight">MAMAN NANAH</h1>
+            <nav class="hidden md:flex space-x-6 text-lg">
+                <a href="#home" class="hover:text-primary transition duration-300">Home</a>
+                <a href="#menu" class="hover:text-primary transition duration-300">Menu</a>
+                <a href="#amenities" class="hover:text-primary transition duration-300">Rooms & Events</a>
+                <a href="#" onclick="openOrderModal()" class="text-white bg-primary py-2 px-4 rounded-full hover:bg-opacity-90 transition duration-300">Place Order</a>
+                <a href="#tracking" class="hover:text-primary transition duration-300">Track Order</a>
+                <a href="#contact" class="hover:text-primary transition duration-300">Contact</a>
+            </nav>
+            <button class="md:hidden p-2 text-primary rounded-lg bg-secondary/50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-bg h-screen flex items-center justify-center text-center text-white p-4">
+            <div>
+                <span class="text-secondary text-lg uppercase tracking-widest font-semibold block mb-2">EATERY AND CATERING SERVICE</span>
+                <h2 class="text-5xl md:text-7xl font-extrabold leading-tight mb-4">
+                    MAMAN NANAH <span class="text-secondary">Serve community with Healthier food</span>
+                </h2>
+                <p class="text-xl md:text-2xl font-light mb-8 max-w-2xl mx-auto">
+                    Experience the rich flavors of Northern Nigeria and host your most important events in our exclusive, well-appointed rooms.
+                </p>
+                <button onclick="openOrderModal()" class="inline-block bg-primary text-white font-semibold py-3 px-8 rounded-full hover:bg-opacity-90 transition duration-300 shadow-xl transform hover:scale-105">
+                    Order Food Now
+                </button>
+            </div>
+        </section>
+
+        <!-- Menu Highlights Section -->
+        <section id="menu" class="py-16 md:py-24 bg-secondary/30">
+            <div class="container mx-auto px-4 text-center">
+                <h3 class="text-4xl font-bold text-primary mb-4">Our Signature Hausa Delicacies</h3>
+                <p class="text-xl text-dark-text/70 mb-12">Taste the tradition in every meal, prepared with authentic ingredients.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Dish 1: Tuwo Shinkafa -->
+                    <div class="bg-white p-6 rounded-xl shadow-custom hover:shadow-2xl transition duration-500 transform hover:-translate-y-1">
+                        <i data-lucide="utensils-crossed" class="w-10 h-10 text-primary mb-4 mx-auto"></i>
+                        <h4 class="text-2xl font-semibold mb-2 text-dark-text">Tuwo Shinkafa</h4>
+                        <p class="text-dark-text/80">A staple swallow dish, often paired with Miyan Kuka or Miyan Taushe. Rich and satisfying.</p>
+                    </div>
+                    <!-- Dish 2: Masa -->
+                    <div class="bg-white p-6 rounded-xl shadow-custom hover:shadow-2xl transition duration-500 transform hover:-translate-y-1">
+                        <i data-lucide="cake" class="w-10 h-10 text-primary mb-4 mx-auto"></i>
+                        <h4 class="text-2xl font-semibold mb-2 text-dark-text">Masa (Rice Cakes)</h4>
+                        <p class="text-dark-text/80">Soft, sweet, and fluffy rice cakes, perfect as a snack, breakfast, or light meal.</p>
+                    </div>
+                    <!-- Dish 3: Fura da Nono -->
+                    <div class="bg-white p-6 rounded-xl shadow-custom hover:shadow-2xl transition duration-500 transform hover:-translate-y-1">
+                        <i data-lucide="milk" class="w-10 h-10 text-primary mb-4 mx-auto"></i>
+                        <h4 class="text-2xl font-semibold mb-2 text-dark-text">Fura da Nono</h4>
+                        <p class="text-dark-text/80">A refreshing, traditional drink made from fermented millet and thick local yogurt. A must-try!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Amenities & Event Rooms Section -->
+        <section id="amenities" class="py-16 md:py-24">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h3 class="text-4xl font-bold text-primary mb-4">Convenient & Premium Facilities</h3>
+                    <p class="text-xl text-dark-text/70 max-w-3xl mx-auto">From quick meals to high-stakes meetings and intimate celebrations, we have the perfect space for you.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Amenity Card: VIP 1 (Premium) -->
+                    <div class="bg-white p-6 rounded-xl shadow-custom border-t-4 border-primary">
+                        <i data-lucide="crown" class="w-8 h-8 text-primary mb-3"></i>
+                        <h4 class="text-2xl font-semibold mb-2 text-primary">VIP 1 Room (Premium)</h4>
+                        <p class="text-dark-text/80 mb-4">Designed for our most exclusive guests, offering the highest level of privacy and dedicated service for premium dining.</p>
+                        <!-- Keeping the paystack link function available for future room booking -->
+                        <button onclick="paystackPop('VIP 1 Room')" class="w-full bg-secondary text-primary font-semibold py-2 rounded-lg hover:bg-secondary/70 transition duration-300 border border-primary transform hover:scale-[1.01]">Inquire/Book</button>
+                    </div>
+
+                    <!-- Other Amenities... (same as before) -->
+                    <div class="bg-white p-6 rounded-xl shadow-custom border-t-4 border-primary">
+                        <i data-lucide="briefcase" class="w-8 h-8 text-primary mb-3"></i>
+                        <h4 class="text-2xl font-semibold mb-2 text-primary">VIP 2 Room (Official Meeting)</h4>
+                        <p class="text-dark-text/80">Equipped with comfortable seating and a professional setting, ideal for official business, board meetings, and formal discussions.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-custom border-t-4 border-primary">
+                        <i data-lucide="gem" class="w-8 h-8 text-primary mb-3"></i>
+                        <h4 class="text-2xl font-semibold mb-2 text-primary">VIP 3 Room (Intimate Gatherings)</h4>
+                        <p class="text-dark-text/80">A versatile space perfect for bridal get-togethers, small birthday celebrations, and private family events.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-custom border-t-4 border-primary">
+                        <i data-lucide="users" class="w-8 h-8 text-primary mb-3"></i>
+                        <h4 class="text-2xl font-semibold mb-2 text-primary">Conference Room</h4>
+                        <p class="text-dark-text/80">A larger capacity room available for training, seminars, and organizational functions.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-custom border-t-4 border-primary">
+                        <i data-lucide="coffee" class="w-8 h-8 text-primary mb-3"></i>
+                        <h4 class="text-2xl font-semibold mb-2 text-primary">Standard Eatery Space</h4>
+                        <p class="text-dark-text/80">Our main dining area provides a clean, welcoming, and convenient environment for everyday meals.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-custom border-t-4 border-primary">
+                        <i data-lucide="toilet" class="w-8 h-8 text-primary mb-3"></i>
+                        <h4 class="text-2xl font-semibold mb-2 text-primary">Clean Restrooms</h4>
+                        <p class="text-dark-text/80">We ensure high standards of hygiene and comfort with well-maintained, clean restroom facilities for all our guests.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Tracking Section (New Feature) -->
+        <section id="tracking" class="py-16 md:py-24 bg-secondary/30">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h3 class="text-4xl font-bold text-primary mb-4">Track Your Orders</h3>
+                    <p class="text-xl text-dark-text/70 max-w-3xl mx-auto">View the status of your recent Maman Nanah food orders below.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <p class="text-sm text-gray-500 mb-4">Your User ID (for tracking): <strong id="user-id-display" class="text-primary break-all">Loading...</strong></p>
+                    <div id="orders-list" class="space-y-4">
+                        <p class="text-center text-gray-500">No active orders found. Start an order above!</p>
+                        <!-- Orders will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Contact & Location Section -->
+        <section id="contact" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Contact Form (Placeholder) -->
+                <div>
+                    <h3 class="text-4xl font-bold text-primary mb-6">Get In Touch</h3>
+                    <p class="mb-6 text-lg text-dark-text/70">Book a room, place a catering order, or give us feedback!</p>
+                    
+                    <form class="space-y-4 bg-white p-6 rounded-xl shadow-lg border-t-4 border-secondary">
+                        <input type="text" placeholder="Your Name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition" required>
+                        <input type="email" placeholder="Your Email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition" required>
+                        <textarea placeholder="Your Message or Booking Inquiry" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition" required></textarea>
+                        <button type="submit" class="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-opacity-90 transition duration-300">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Location & Info -->
+                <div class="space-y-8">
+                    <h3 class="text-4xl font-bold text-primary mb-6">Find Us</h3>
+
+                    <!-- Address -->
+                    <div class="flex items-start space-x-4">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-primary flex-shrink-0 mt-1"></i>
+                        <div>
+                            <p class="text-xl font-semibold text-dark-text">Our Address:</p>
+                            <p class="text-lg text-dark-text/90">
+                                **No 28 kasarau yamma, opp glo office behind emir dutse house**
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="flex items-start space-x-4">
+                        <i data-lucide="phone" class="w-6 h-6 text-primary flex-shrink-0 mt-1"></i>
+                        <div>
+                            <p class="text-xl font-semibold text-dark-text">Call Us:</p>
+                            <p class="text-lg text-dark-text/90">(+234) 706-6958-806</p>
+                        </div>
+                    </div>
+
+                    <!-- Map Placeholder -->
+                    <div class="w-full h-64 bg-gray-200 rounded-xl shadow-inner flex items-center justify-center">
+                        <p class="text-gray-500 font-medium">Map Location Placeholder</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom Confirmation Modal (Paystack Placeholder) -->
+        <div id="payment-modal" class="fixed inset-0 bg-dark-text bg-opacity-75 flex items-center justify-center z-[100] hidden">
+            <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm mx-4">
+                <h4 class="text-2xl font-bold mb-4 text-primary">Confirm Booking Deposit</h4>
+                <p id="modal-text" class="mb-6 text-dark-text text-lg"></p>
+                <div class="flex justify-end space-x-3">
+                    <button id="close-modal" class="px-4 py-2 text-dark-text border border-gray-300 rounded-lg hover:bg-gray-100 transition">Cancel</button>
+                    <button id="confirm-payment" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition transform hover:scale-105">Proceed to Paystack</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Modal (New Feature) -->
+        <div id="order-modal" class="fixed inset-0 bg-dark-text bg-opacity-75 flex items-center justify-center z-[110] hidden p-4">
+            <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-4xl h-[90vh] flex flex-col">
+                <div class="flex justify-between items-center pb-4 border-b">
+                    <h4 class="text-3xl font-bold text-primary">Place Your Food Order</h4>
+                    <button onclick="closeOrderModal()" class="text-gray-500 hover:text-dark-text transition">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                
+                <div class="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-6 pt-4 scroll-y">
+                    <!-- Menu Panel -->
+                    <div class="lg:col-span-2 space-y-4">
+                        <h5 class="text-2xl font-semibold text-dark-text">Today's Menu</h5>
+                        <div id="menu-items" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Menu items populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Cart & Checkout Panel -->
+                    <div class="lg:col-span-1 bg-secondary/50 p-4 rounded-lg shadow-inner flex flex-col h-full sticky top-0">
+                        <h5 class="text-2xl font-semibold text-primary mb-4">Your Cart</h5>
+                        <div id="cart-items" class="flex-grow space-y-2 border-b pb-4 mb-4 scroll-y">
+                            <!-- Cart items populated by JS -->
+                            <p class="text-gray-500 text-center py-4">Cart is empty.</p>
+                        </div>
+                        
+                        <div class="space-y-1 mb-4">
+                            <p class="flex justify-between font-semibold"><span>Subtotal:</span> <span id="cart-subtotal">N0.00</span></p>
+                            <p class="flex justify-between text-lg font-bold border-t pt-2 text-primary"><span>TOTAL:</span> <span id="cart-total">N0.00</span></p>
+                        </div>
+
+                        <!-- Checkout Form -->
+                        <form id="checkout-form" class="space-y-3">
+                            <h6 class="font-semibold text-lg border-t pt-3">Delivery Details</h6>
+                            <input type="text" id="checkout-name" placeholder="Your Full Name" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                            <input type="email" id="checkout-email" placeholder="Email (for Receipt)" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                            <input type="tel" id="checkout-phone" placeholder="Phone Number" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                            <textarea id="checkout-address" placeholder="Delivery Address" rows="2" class="w-full p-2 border border-gray-300 rounded-lg" required></textarea>
+                            <button type="submit" id="submit-order-btn" class="w-full bg-primary text-white font-bold py-3 rounded-full hover:bg-opacity-90 transition duration-300 disabled:bg-gray-400" disabled>
+                                Checkout & Place Order
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Custom Alert/Notification (Replaces alert()) -->
+        <div id="custom-alert" class="fixed bottom-5 right-5 p-4 rounded-lg shadow-xl transition-transform transform translate-x-full duration-500 z-[90]">
+            <!-- Alert message will be inserted here by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-text text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="mb-4">
+                <h5 class="text-2xl font-bold text-secondary">Maman Nanah</h5>
+                <p class="text-sm text-gray-400">Eatery and Catering Service</p>
+            </div>
+            <p class="text-sm text-gray-500">&copy; 2025 Maman Nanah. All rights reserved.</p>
+            <div class="mt-4 flex justify-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Privacy Policy</a>
+                <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Firebase Imports and Main Application Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, updateDoc, onSnapshot, collection, query, where, addDoc, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables provided by the environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Application State
+        let app, db, auth;
+        let userId = null;
+        let isAuthReady = false;
+        let cart = [];
+        
+        // Mock Menu Items
+        const menuItems = [
+            { id: 1, name: "Tuwo Shinkafa & Miyan Kuka", price: 1500, description: "Classic sorghum pudding served with baobab leaf soup." },
+            { id: 2, name: "Jollof Rice with Beef", price: 2000, description: "Smoky, rich jollof rice and marinated tender beef." },
+            { id: 3, name: "Masa (6 pcs)", price: 800, description: "Fluffy fermented rice cakes, perfect with Yaji (spice)." },
+            { id: 4, name: "Fura da Nono", price: 750, description: "Cooling beverage of millet meal and local yogurt." },
+            { id: 5, name: "Suya (Chicken)", price: 1800, description: "Spicy skewered grilled chicken, Hausa street food favorite." },
+            { id: 6, name: "Miyan Taushe", price: 1700, description: "Pumpkin soup served with choice of swallow (Tuwo or Semo)." }
+        ];
+
+        // --- Firebase Initialization and Auth ---
+
+        async function initFirebase() {
+            try {
+                if (Object.keys(firebaseConfig).length === 0) {
+                    console.error("Firebase config is missing. Cannot initialize Firestore.");
+                    showCustomAlert("Database not configured. Orders will not be saved.", 'error');
+                    return;
+                }
+                
+                setLogLevel('Debug');
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        isAuthReady = true;
+                        console.log("Authenticated user:", userId);
+                    } else {
+                        // Sign in anonymously if no token or user exists
+                        try {
+                            if (initialAuthToken) {
+                                await signInWithCustomToken(auth, initialAuthToken);
+                            } else {
+                                await signInAnonymously(auth);
+                            }
+                        } catch (error) {
+                            console.error("Authentication failed:", error);
+                            showCustomAlert("Authentication failed. Order tracking unavailable.", 'error');
+                        }
+                    }
+
+                    // Once auth is ready, set up the tracking listener
+                    if (isAuthReady) {
+                        document.getElementById('user-id-display').textContent = userId;
+                        listenForOrders();
+                    }
+                });
+
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                showCustomAlert("Error initializing database services.", 'error');
+            }
+        }
+
+        // --- Core UI Helpers ---
+
+        // Custom alert function (replaces window.alert())
+        function showCustomAlert(message, type = 'info') {
+            const alertBox = document.getElementById('custom-alert');
+            alertBox.textContent = message;
+            alertBox.className = 'fixed bottom-5 right-5 p-4 rounded-xl shadow-xl transition-transform transform duration-500 z-[90]';
+
+            if (type === 'success') {
+                alertBox.classList.add('bg-green-600', 'text-white');
+            } else if (type === 'error') {
+                alertBox.classList.add('bg-red-600', 'text-white');
+            } else {
+                alertBox.classList.add('bg-blue-600', 'text-white');
+            }
+
+            // Show alert
+            alertBox.classList.remove('translate-x-full');
+            
+            // Hide alert after 5 seconds
+            setTimeout(() => {
+                alertBox.classList.add('translate-x-full');
+            }, 5000);
+        }
+
+        // --- Ordering System Logic ---
+
+        function getCartSubtotal() {
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        }
+
+        function renderMenu() {
+            const menuContainer = document.getElementById('menu-items');
+            menuContainer.innerHTML = '';
+            
+            menuItems.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'bg-white p-4 rounded-lg shadow-sm border border-gray-100';
+                itemEl.innerHTML = `
+                    <h5 class="text-xl font-semibold text-dark-text">${item.name}</h5>
+                    <p class="text-sm text-gray-500 mb-2">${item.description}</p>
+                    <p class="text-lg font-bold text-primary mb-3">N${item.price.toLocaleString()}</p>
+                    <div class="flex items-center space-x-2">
+                        <input type="number" id="qty-${item.id}" value="1" min="1" class="w-16 p-1 border rounded-md text-center">
+                        <button data-item-id="${item.id}" class="add-to-cart-btn w-full bg-secondary text-primary text-sm font-semibold py-2 rounded-md hover:bg-secondary/70 transition">
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+                menuContainer.appendChild(itemEl);
+            });
+
+            // Add event listeners for new buttons
+            menuContainer.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const itemId = parseInt(e.currentTarget.dataset.itemId);
+                    const quantity = parseInt(document.getElementById(`qty-${itemId}`).value);
+                    addToCart(itemId, quantity);
+                });
+            });
+        }
+
+        function addToCart(itemId, quantity) {
+            const item = menuItems.find(i => i.id === itemId);
+            if (!item || quantity < 1) return;
+
+            const existingItemIndex = cart.findIndex(c => c.id === itemId);
+            
+            if (existingItemIndex !== -1) {
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                cart.push({ ...item, quantity: quantity });
+            }
+            showCustomAlert(`${quantity}x ${item.name} added to cart.`, 'info');
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartContainer = document.getElementById('cart-items');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const totalEl = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('submit-order-btn');
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p class="text-gray-500 text-center py-4">Cart is empty.</p>';
+                checkoutBtn.disabled = true;
+                subtotalEl.textContent = 'N0.00';
+                totalEl.textContent = 'N0.00';
+                return;
+            }
+
+            let html = '';
+            cart.forEach((item, index) => {
+                html += `
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="font-medium">${item.name} (${item.quantity}x)</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-semibold text-dark-text">N${(item.price * item.quantity).toLocaleString()}</span>
+                            <button data-index="${index}" class="remove-from-cart-btn text-red-500 hover:text-red-700">
+                                <i data-lucide="minus-circle" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            cartContainer.innerHTML = html;
+            lucide.createIcons(); // Re-render icons
+
+            const subtotal = getCartSubtotal();
+            // Assuming no tax/delivery fee for simplicity, total = subtotal
+            const total = subtotal; 
+
+            subtotalEl.textContent = `N${subtotal.toLocaleString()}`;
+            totalEl.textContent = `N${total.toLocaleString()}`;
+            checkoutBtn.disabled = false;
+
+            cartContainer.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const indexToRemove = parseInt(e.currentTarget.dataset.index);
+                    cart.splice(indexToRemove, 1);
+                    renderCart();
+                });
+            });
+        }
+
+        async function submitOrder(e) {
+            e.preventDefault();
+
+            if (!db || !userId) {
+                showCustomAlert("Database not ready. Please wait a moment.", 'error');
+                return;
+            }
+            if (cart.length === 0) {
+                showCustomAlert("Your cart is empty.", 'error');
+                return;
+            }
+
+            const button = document.getElementById('submit-order-btn');
+            button.disabled = true;
+            button.textContent = "Processing...";
+
+            const name = document.getElementById('checkout-name').value;
+            const email = document.getElementById('checkout-email').value;
+            const phone = document.getElementById('checkout-phone').value;
+            const address = document.getElementById('checkout-address').value;
+            const totalAmount = getCartSubtotal();
+
+            const orderData = {
+                userId: userId,
+                customerName: name,
+                customerEmail: email,
+                customerPhone: phone,
+                deliveryAddress: address,
+                items: cart,
+                total: totalAmount,
+                status: 'Pending', // Initial status
+                timestamp: serverTimestamp()
+            };
+
+            try {
+                // Save to public orders collection
+                const orderRef = collection(db, `artifacts/${appId}/public/data/orders`);
+                await addDoc(orderRef, orderData);
+
+                // Success message and receipt simulation
+                showCustomAlert(`Order placed! Total: N${totalAmount.toLocaleString()}. A receipt has been *simulated* and sent to ${email}.`, 'success');
+                
+                // Reset cart and close modal
+                cart = [];
+                renderCart();
+                closeOrderModal();
+                document.getElementById('checkout-form').reset();
+
+            } catch (error) {
+                console.error("Error submitting order:", error);
+                showCustomAlert("Failed to place order. Please try again.", 'error');
+            } finally {
+                button.disabled = false;
+                button.textContent = "Checkout & Place Order";
+            }
+        }
+
+        function openOrderModal() {
+            if (!isAuthReady) {
+                 showCustomAlert("Connecting to database...", 'info');
+                 return;
+            }
+            document.getElementById('order-modal').classList.remove('hidden');
+            renderMenu();
+            renderCart();
+        }
+
+        function closeOrderModal() {
+            document.getElementById('order-modal').classList.add('hidden');
+        }
+        
+        // Add form submit listener
+        document.getElementById('checkout-form').addEventListener('submit', submitOrder);
+
+
+        // --- Order Tracking Logic ---
+
+        function getOrdersCollectionRef() {
+            if (!db) return null;
+            return collection(db, `artifacts/${appId}/public/data/orders`);
+        }
+
+        function listenForOrders() {
+            const ordersRef = getOrdersCollectionRef();
+            if (!ordersRef || !userId) return;
+
+            // Query for orders belonging to the current user, ordered by time
+            const q = query(ordersRef, where('userId', '==', userId));
+
+            onSnapshot(q, (snapshot) => {
+                const orders = [];
+                snapshot.forEach((doc) => {
+                    orders.push({ id: doc.id, ...doc.data() });
+                });
+                // Sort client-side by timestamp (descending) since Firestore orderBy requires indexes
+                orders.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                renderOrders(orders);
+            }, (error) => {
+                console.error("Error listening to orders:", error);
+                document.getElementById('orders-list').innerHTML = '<p class="text-center text-red-500">Error loading orders.</p>';
+            });
+        }
+
+        function renderOrders(orders) {
+            const ordersListEl = document.getElementById('orders-list');
+            
+            if (orders.length === 0) {
+                ordersListEl.innerHTML = '<p class="text-center text-gray-500">No active orders found. Start an order above!</p>';
+                return;
+            }
+
+            ordersListEl.innerHTML = orders.map(order => {
+                const statusColor = order.status === 'Delivered' ? 'bg-green-100 text-green-700' : 
+                                    order.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' : 
+                                    'bg-blue-100 text-blue-700';
+                
+                const timeString = order.timestamp ? new Date(order.timestamp.toDate()).toLocaleString() : 'N/A';
+
+                const confirmButton = order.status === 'Shipped' ? 
+                    `<button data-id="${order.id}" class="confirm-delivery-btn text-white bg-green-500 hover:bg-green-600 px-3 py-1 rounded-full text-sm transition">Confirm Delivery</button>` : 
+                    `<button disabled class="text-gray-500 bg-gray-200 px-3 py-1 rounded-full text-sm">Delivered</button>`;
+
+                return `
+                    <div class="p-4 border rounded-lg shadow-sm hover:shadow-md transition bg-gray-50">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-lg">Order #${order.id.substring(0, 8)}...</h4>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${order.status}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-1">Placed: ${timeString}</p>
+                        <p class="text-sm text-gray-600 mb-2">Total: <strong class="text-primary">N${order.total.toLocaleString()}</strong></p>
+                        <ul class="list-disc pl-5 text-sm text-gray-700 space-y-0.5">
+                            ${order.items.map(item => `<li>${item.quantity}x ${item.name}</li>`).join('')}
+                        </ul>
+                        <div class="mt-3 pt-3 border-t flex justify-end">
+                            ${order.status === 'Shipped' ? confirmButton : ''}
+                            ${order.status === 'Delivered' ? '<span class="text-green-500 text-sm font-semibold">Confirmed! Thank you.</span>' : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Add event listeners for confirmation buttons
+            ordersListEl.querySelectorAll('.confirm-delivery-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const orderId = e.currentTarget.dataset.id;
+                    confirmDelivery(orderId, e.currentTarget);
+                });
+            });
+        }
+
+        async function confirmDelivery(orderId, buttonEl) {
+            if (!db) {
+                showCustomAlert("Database not ready.", 'error');
+                return;
+            }
+
+            buttonEl.disabled = true;
+            buttonEl.textContent = "Updating...";
+
+            try {
+                const docRef = doc(db, `artifacts/${appId}/public/data/orders`, orderId);
+                await updateDoc(docRef, {
+                    status: 'Delivered',
+                    deliveryConfirmedAt: serverTimestamp()
+                });
+                showCustomAlert(`Order ${orderId.substring(0, 8)} confirmed as delivered!`, 'success');
+            } catch (error) {
+                console.error("Error confirming delivery:", error);
+                showCustomAlert("Failed to confirm delivery.", 'error');
+            } finally {
+                // onSnapshot listener will re-render the orders list automatically
+            }
+        }
+
+
+        // --- Paystack Placeholder (Kept from previous version) ---
+
+        function paystackPop(roomName) {
+            const amountKobo = 1000000; // NGN 10,000.00 in kobo
+            const publicKey = "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // *** REPLACE WITH YOUR ACTUAL PAYSTACK PUBLIC KEY ***
+            const userEmail = "booking@mamannanah.com"; // Placeholder email
+
+            const modal = document.getElementById('payment-modal');
+            const modalText = document.getElementById('modal-text');
+            const closeModal = document.getElementById('close-modal');
+            const confirmPayment = document.getElementById('confirm-payment');
+
+            modalText.innerHTML = `Confirm **NGN 10,000.00** deposit for the **${roomName}** booking. You will be redirected to the Paystack gateway.`;
+            modal.classList.remove('hidden');
+
+            const closeHandler = () => { modal.classList.add('hidden'); confirmPayment.removeEventListener('click', confirmHandler); closeModal.removeEventListener('click', closeHandler); };
+            const confirmHandler = () => {
+                modal.classList.add('hidden');
+                closeModal.removeEventListener('click', closeHandler);
+
+                const handler = PaystackPop.setup({
+                    key: publicKey,
+                    email: userEmail,
+                    amount: amountKobo, 
+                    currency: 'NGN',
+                    ref: 'MNN_' + Math.floor((Math.random() * 1000000000) + 1),
+                    callback: function(response){
+                        showCustomAlert('Payment Complete! Ref: ' + response.reference, 'success');
+                    },
+                    onClose: function(){
+                        showCustomAlert('Payment window closed by user. Booking not completed.', 'error');
+                    }
+                });
+                handler.openIframe();
+            };
+
+            closeModal.addEventListener('click', closeHandler);
+            confirmPayment.addEventListener('click', confirmHandler);
+        }
+
+        // Expose functions globally for HTML attributes
+        window.openOrderModal = openOrderModal;
+        window.closeOrderModal = closeOrderModal;
+        window.paystackPop = paystackPop;
+
+
+        // --- Startup ---
+        window.onload = function() {
+            lucide.createIcons();
+            initFirebase();
+        };
+
+    </script>
+</body>
+</html>
